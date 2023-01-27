@@ -39,7 +39,7 @@
         </ul>
         <div class="container mt-5">
             <h1 class="text-center alert alert-secondary">Sales</h1>
-            <a href="product.php" role="button" class="btn btn-primary mt-3">Create Receipt</a>
+            <a href="CreateReceiption.php" role="button" class="btn btn-primary mt-3">Create Receipt</a>
         </div>
         <div class="accordion accordion-flush  mt-5" id="accordionFlushExample">
             <?php
