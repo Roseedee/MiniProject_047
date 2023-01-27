@@ -73,7 +73,7 @@
                     </div>
                     <div class="flex-grow-1 mr-3">
                         <label for="ptype" class="form-label">Product Type</label>
-                        <select name="ptype"class="form-select">
+                        <select name="ptype" class="form-select">
                             <?php
                                 $product_type = $con->query("Select * from product_type");
                                 if($product_type->num_rows > 0) {
