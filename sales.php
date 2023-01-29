@@ -4,6 +4,9 @@
         header('location: form_login.php');
     }
     include('connection.php');
+
+    
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +42,37 @@
         </ul>
         <div class="container mt-5">
             <h1 class="text-center alert alert-secondary">Sales</h1>
-            <a href="CreateReceiption.php" role="button" class="btn btn-primary mt-3">Create Receipt</a>
+            <form action="CreateReceiption.php" method="POST">
+                <div class="d-flex flew-row">
+                    <div class="flex-grow-1 mr-3">
+                        <label for="customer-id" class="form-label">Customer</label>
+                        <select name="customer-id" class="form-select">
+                            <?php
+                                $product_type = $con->query("Select * from customer");
+                                if($product_type->num_rows > 0) {
+                                    while($row = $product_type->fetch_assoc()) {
+                                        echo '<option value='.$row['c_id'].'>'.$row['c_name'].'</option>';
+                                    }
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="flex-grow-1 mr-3">
+                        <label for="employee-id" class="form-label">Employee</label>
+                        <select name="employee-id" class="form-select">
+                            <?php
+                                $product_type = $con->query("Select * from employee");
+                                if($product_type->num_rows > 0) {
+                                    while($row = $product_type->fetch_assoc()) {
+                                        echo '<option value='.$row['e_id'].'>'.$row['e_name'].'</option>';
+                                    }
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <input class="btn btn-success mt-3" type="submit" value="Create Receiption">
+            </form>
         </div>
         <div class="accordion accordion-flush  mt-5" id="accordionFlushExample">
             <?php
@@ -47,6 +80,7 @@
                 $receipt = $con->query($sql);
                 if($receipt->num_rows > 0) {
                     while($row = $receipt->fetch_assoc()) {
+                        $total_price = 0;
             ?>
             <div class="accordion-item alert alert-secondary">
                 <h2 class="accordion-header" id="flush-headingOne">
@@ -60,17 +94,18 @@
                             $product = $con->query("Select product.*, product_sales.* from product_sales join product on product.p_id=product_sales.p_id where product_sales.r_id=$row[r_id];");
                             if($product->num_rows > 0) {
                                 while($row1 = $product->fetch_assoc()) {
-                                    echo '<li class="list-group-item d-flex justify-content-between align-items-center">'. $row1['p_name'].'
+                                    echo '<li class="list-group-item d-flex justify-content-between align-items-center">'. $row1['p_name'].' ('.$row1['p_price'].' Bath)
                                             <span class="badge bg-primary rounded-pill">'.$row1['p_num'].'</span>
                                     </li>';
+                                    $total_price += $row1['p_price'] * $row1['p_num'];
                                 }
                             }
                         ?>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Total Price : <?php echo $row['r_tt_price'];?>
+                            Total Price : <?php echo $total_price . ' Bath';?>
                         </li>
                     </ul>
-                    <a href="" class="btn btn-danger mt-2">Delete</a>
+                    <a href="delete.php?form=receipt&id=<?php echo $row['r_id']; ?>" class="btn btn-danger mt-2">Delete</a>
                 </div>
             </div>
             <?php

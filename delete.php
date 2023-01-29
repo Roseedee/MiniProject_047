@@ -17,6 +17,9 @@
         }else if ($from == 'employee') {
             $sql = "delete from employee where e_id='$id'";
             $redirect = 'employee.php';
+        }else if ($from == 'receipt') {
+            $sql = "delete from receipt where r_id='$id'";
+            $redirect = 'sales.php';
         }
 
         $con->query($sql);
