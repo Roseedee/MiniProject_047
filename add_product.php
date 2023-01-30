@@ -15,5 +15,5 @@
         $sql = "insert into product_sales values ('$r_id', '$p_id', 1)";
         $con->query($sql);
     }
-    header("location: form_product.php?r_id='.$r_id.'");
+    header("location: form_product.php?r_id=$r_id");
 ?>

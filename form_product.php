@@ -1,5 +1,6 @@
 <?php
-    include('connection.php')
+    include('connection.php');
+    $r_id = $_GET['r_id'];
 ?>
 
 <!DOCTYPE html>
@@ -39,16 +40,37 @@
         <div class="container mt-5">
             <a href="sales.php" role="button" class="btn btn-secondary mb-3">Back</a>
             <h1 class="text-center alert alert-secondary">Create Receiption</h1>
-            <a role="button" type="button" class="btn btn-primary position-relative">
-                ตะกร้า
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    <?php
-                        $sql = "Select * from product_sales where r_id=" . $_GET['r_id'];
-                        $result = $con->query($sql);
-                        echo $result->num_rows;
-                    ?>    
-                <span class="visually-hidden">unread messages</span></span>
-            </a>
+            <?php
+                $sql = "Select sum(p_num) as p_num from product_sales where r_id=" . $r_id;
+                $result = $con->query($sql);
+                $p_num = $p_row = $result->fetch_assoc();
+            ?>    
+            <div class="accordion-item alert alert-secondary">
+                <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#<?php echo $r_id;?>" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Shopee Cart : (<?php echo $p_num['p_num']; ?>)
+                </button>
+                </h2>
+                <div id="<?php echo $r_id;?>" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <ul class="list-group">
+                        <?php
+                            $total_price = 0;
+                            $product = $con->query("Select product.*, product_sales.* from product_sales join product on product.p_id=product_sales.p_id where product_sales.r_id=$r_id;");
+                            if($product->num_rows > 0) {
+                                while($row1 = $product->fetch_assoc()) {
+                                    echo '<li class="list-group-item d-flex justify-content-between align-items-center">'. $row1['p_name'].' ('.$row1['p_price'].' Bath)
+                                            <span class="badge bg-primary rounded-pill">'.$row1['p_num'].'</span>
+                                    </li>';
+                                    $total_price += $row1['p_price'] * $row1['p_num'];
+                                }
+                            }
+                        ?>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Price : <?php echo $total_price . ' Bath';?>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <section class="section-products">
 		    <div class="container">
@@ -63,7 +85,7 @@
 						<div id="product-1" class="single-product">
 							<div class="part-1">
 								<ul>
-									<li><a href="add_product.php?p_id=<?php echo $row['p_id'].'&r_id='.$_GET['r_id'];?>">Add</a></li>
+									<li><a href="add_product.php?p_id=<?php echo $row['p_id'].'&r_id='.$r_id;?>">Add</a></li>
 								</ul>
 							</div>
 							<div class="part-2">

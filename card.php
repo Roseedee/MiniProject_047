@@ -4,6 +4,7 @@
         header('location: form_login.php');
     }
     include('connection.php');
+    $r_id = $_GET['r_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,9 +40,20 @@
             <a href="logout.php" role="button" class="btn btn-secondary float-end">Logout</a>
         </ul>
         <div class="container mt-5">
-            <h1 class="text-center alert alert-secondary">Create Receiption</h1>
-            <a href=""></a>
+            <a href="form_product.php?r_id=<?php echo $r_id ?>" role="button" class="btn btn-secondary mb-3">Back</a>
         </div>
+        <ul class="list-group">
+            <?php
+                $sql = "Select concat(product.p_name, ' Price : ', product.p_price, ' Bath Quantity : ', product_sales.p_num) as detials from product_sales join product on product.p_id=product_sales.p_id where product_sales.r_id=".$r_id . " group by product.p_name";
+                $result = $con->query($sql);
+                if($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo '<li class="list-group-item">'.$row['detials'].'</li>';
+                    }
+                }
+            ?>
+            <li class="list-group-item"></li>
+        </ul>
     </div>
 </body>
 </html>
