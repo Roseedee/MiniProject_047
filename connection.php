@@ -1,8 +1,8 @@
 <?php
-    $host = "localhost";
-    $username = "id20223495_roseedee";
-    $password = "S-]8?fO(~\G[(Wl<";
-    $dbname = "id20223495_miniproject047";
+    $host = "";
+    $username = "";
+    $password = "";
+    $dbname = "";
 
     $con = new mysqli($host, $username, $password, $dbname);
 
