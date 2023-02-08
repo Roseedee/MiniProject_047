@@ -18,11 +18,13 @@
             $_SESSION["a_username"] = $row["a_username"];
             $_SESSION["a_level"] = $row["a_level"];
             $_SESSION["login-state"] = "Complate";
+
             if($_SESSION["a_level"]=="A"){ //ถ้าเป็ น admin ให้กระโดดไปหน้า
                 header("Location: index.php");
             }else if ($_SESSION["a_level"]=="M"){ //ถ้าเป็ น member ให้กระโดดไปหน้า
                 header("Location: user_page.php");
             }
+            
         }else{
             echo "<script>";
             echo "alert(\" user หรือ password ไม่ถูกตอ้ง\");";
