@@ -76,7 +76,7 @@
         </div>
         <div class="accordion accordion-flush  mt-5" id="accordionFlushExample">
             <?php
-                $sql = "Select receipt.r_id, receipt.r_tt_price, customer.c_id, customer.c_name, employee.e_id, employee.e_name from receipt join customer on customer.c_id=receipt.c_id JOIN employee on employee.e_id=receipt.e_id;";
+                $sql = "Select receipt.r_id, receipt.r_tt_price, customer.c_id, customer.c_name, employee.e_id, employee.e_name from receipt join customer on customer.c_id=receipt.c_id JOIN employee on employee.e_id=receipt.e_id order by receipt.r_id  desc;";
                 $receipt = $con->query($sql);
                 if($receipt->num_rows > 0) {
                     while($row = $receipt->fetch_assoc()) {
@@ -106,6 +106,7 @@
                         </li>
                     </ul>
                     <a href="delete.php?form=receipt&id=<?php echo $row['r_id']; ?>" class="btn btn-danger mt-2">Delete</a>
+                    <a href="recieption.php?r_id=<?php echo $row['r_id']; ?>" class="btn btn-info mt-2">issue a receipt</a>
                 </div>
             </div>
             <?php

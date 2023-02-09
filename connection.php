@@ -1,8 +1,8 @@
 <?php
-    $host = "";
-    $username = "";
+    $host = "localhost";
+    $username = "root";
     $password = "";
-    $dbname = "";
+    $dbname = "miniproject_047_db";
 
     $con = new mysqli($host, $username, $password, $dbname);
 
